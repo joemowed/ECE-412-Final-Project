@@ -10,7 +10,6 @@
 #include "portAPI.h"
 #include <stdarg.h>
 #include <stdio.h>
-#include <string.h>
 
 // configuration settings used by LCDInit()
 struct LCDConfig LCDConfig = {
