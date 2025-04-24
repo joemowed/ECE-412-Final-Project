@@ -12,8 +12,6 @@
 #include <stdbool.h>     //
 #include <stdint-gcc.h>  //import the nessasary types for declarations
 
-#include "pinstacking.h"
-
 #define LCD_DATA_PORT PORTD        // the port used for LCD data pins 0:7
 #define LCD_REG_SELECT_PIN 1       // the pin used for RS on the LCD
 #define LCD_REG_SELECT_PORT PORTB  // the port associated with the RS pin
@@ -38,7 +36,7 @@ void LCDWriteCommand(uint8_t data);
 void LCDClear();
 
 // enables and configures LCD as defined in the LCDConfigStruct
-void LCDInit(PSCallbacks *LCDStacking);
+void LCDInit();
 
 // typedef for a custom character.
 // on the 1602 LCD, custom characters are 5x8 pixels
