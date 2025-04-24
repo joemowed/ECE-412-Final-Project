@@ -13,7 +13,7 @@
 #include <stdint-gcc.h>  //import the nessasary types for declarations
 
 #define LCD_DATA_PORT PORTD        // the port used for LCD data pins 0:7
-#define LCD_REG_SELECT_PIN 1       // the pin used for RS on the LCD
+#define LCD_REG_SELECT_PIN 3       // the pin used for RS on the LCD
 #define LCD_REG_SELECT_PORT PORTB  // the port associated with the RS pin
 #define LCD_RW_PIN 0               // the pin used for read/write on the LCD
 #define LCD_RW_PORT PORTB     // the port associated with the read/write pin
@@ -21,10 +21,10 @@
 #define LCD_LATCH_PORT PORTB  // the port associated with the E pin
 
 // microseconds, used for return home and clear display
-#define LCD_LONG_DELAY 1600
+#define LCD_LONG_DELAY 2000
 
 // microseconds, used for all other LCD instructions
-#define LCD_SHORT_DELAY 40
+#define LCD_SHORT_DELAY 80
 
 // writes the given uint8_t to the LCD as data
 void LCDWriteData(uint8_t data);

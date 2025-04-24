@@ -12,6 +12,7 @@
 #include "time.h"
 #include "random.h"
 #include <util/delay.h>
+
 int main(void) { /* Replace with your application code */
   LCDInit();
   LCDPuts("a string3, %i",3);

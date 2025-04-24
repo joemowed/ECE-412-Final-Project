@@ -119,3 +119,8 @@ void startDrawTimer(){
 unsigned long stopDrawTimer(){
 	return getTime() - quickdraw_start_ms;
 }
+
+void delayMilliseconds(unsigned long milliseconds){
+	unsigned long startTime = getTime();
+	while((getTime()-startTime) > milliseconds){}
+}
