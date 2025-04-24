@@ -16,8 +16,8 @@ struct LCDConfig LCDConfig = {
     .isCursorIncrement = 1,
     .isDisplayShift = 0,
     .isDisplayOn = 1,
-    .isCursorOn = 0,
-    .isCursorBlinkOn = 0,
+    .isCursorOn = 1,
+    .isCursorBlinkOn = 1,
     .is8BitData = 1,
     .is2LineMode = 1,
     .is5x11Font = 0,
@@ -86,20 +86,29 @@ inline void LCDConfigPins() {
 void LCDInit() {
   LCDConfigPins();
   LCDZeroOutputs();  // clear outputs on LCD pins
+
   // "function set" from datasheet
   uint8_t tmp = ((1 << 5) | (LCDConfig.is8BitData << 4) |
                  (LCDConfig.is2LineMode << 3) | (LCDConfig.is5x11Font << 2));
   LCDWriteCommand(tmp);
+  tmp = 0;
+
   tmp = (1 << 3);  // "Display ON/OFF" from datasheet
   LCDWriteCommand(tmp);
+  tmp = 0;
+
   // "Entry Mode set" from datasheet
   tmp = ((1 << 2) | (LCDConfig.isCursorIncrement << 1) |
          LCDConfig.isDisplayShift);
   LCDWriteCommand(tmp);
+  tmp = 0;
+
   // "Display ON/OFF" from datasheet
   tmp = ((1 << 3) | (LCDConfig.isDisplayOn << 2) | (LCDConfig.isCursorOn << 1) |
          LCDConfig.isCursorBlinkOn);
   LCDWriteCommand(tmp);
+  tmp = 0;
+
   LCDClear();  // clear the display, and sets the cursor to 0,0
 }
 

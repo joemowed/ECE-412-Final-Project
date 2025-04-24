@@ -55,10 +55,16 @@ void LCDCursorHome();
 // sets the appropriate pins to outputs for driving the LCD
 void LCDConfigPins();
 
-void LCDPuts2(const char *str_top,...);
+/* Sets the cursor to a position on the LCD.  Valid positions on the 1602 LCD
+ * include are 0x00-0x67 (2-line display mode).  The first char on the second
+ * line is at position 0x28.*/
+void LCDSetCursorPos(uint8_t pos) ;
 
 // writes a single string to the LCD, on the top line
 void LCDPuts(const char *str,...);
+
+// writes a single string to the LCD, on the bottom line
+void LCDPuts2(const char *str_top,...);
 
 // configuration for the LCD
 // This is used by the LCDInit() function to

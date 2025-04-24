@@ -63,10 +63,5 @@ void delayFlag(volatile bool *flag, const uint16_t microseconds);
 
 uint16_t microsecondsToPeriodCount(uint16_t value);
 
-//starts the global timer uses TIM4
-void timeStart();
-
-//returns the number of milliseconds since the global timer has started
-unsigned long getTime();
 
 #endif /* TIMERAPI_H_ */

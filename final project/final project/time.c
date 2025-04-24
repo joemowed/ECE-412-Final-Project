@@ -6,6 +6,7 @@
  */ 
 
 #include "delay.h"
+#include "time.h"
 #include <avr/interrupt.h>
 #include <stdbool.h>
 
@@ -17,6 +18,12 @@
 #define GLOBAL_TIM_OCRAL OCR4AL
 #define GLOBAL_TIM_ISRMSK TIMSK4
 #define GLOBAL_TIM_ISR_HANDLE TIMER4_COMPA_vect
+
+//set to true by the initialization routine
+bool is_global_timer_init = false;
+
+//the start time for the quickdraw timer
+unsigned long quickdraw_start_ms = 0;
 
 // the following flags are changed by the ISR
 volatile unsigned long global_ms_elapsed =0 ;
@@ -85,6 +92,7 @@ void globalTimerInit(const uint16_t microseconds) {
 	// enable global interrupts
 	sei();
 	globalStartTimer();
+	is_global_timer_init = true;
 }
 
 void timeStart(){
@@ -93,4 +101,21 @@ void timeStart(){
 
 unsigned long getTime(){
 	return global_ms_elapsed;
+}
+
+
+/* starts counting milliseconds for the quickdraw timer.  Resets the current
+ start time for the quickdraw timer if required.*/
+void startDrawTimer(){
+	if(!isGlobalTimerInit())
+	{
+	//start the global timer, if it is not already	
+		timeStart();
+	}
+	quickdraw_start_ms = getTime();
+}
+
+/* Returns the number of milliseconds elapsed since the startDrawTimer has been called.*/
+unsigned long stopDrawTimer(){
+	return getTime() - quickdraw_start_ms;
 }

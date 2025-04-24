@@ -9,22 +9,20 @@
 
 #include "LCD.h"
 #include "delay.h"
+#include "time.h"
 #include "random.h"
 #include <util/delay.h>
 int main(void) { /* Replace with your application code */
-#define ICR1_TOP_VALUE 2075
   LCDInit();
-   LCDPuts("a string3, %i",3);
-   LCDPuts2("a string3, %i",365);
-   timeStart();
-
+  LCDPuts("a string3, %i",3);
+  LCDPuts2("a string3, %i",365);
+  timeStart();
 
   while (1) {
-  LCDClear();
   int rand_top = randomInRange(1000,1100);
   LCDClear();
-  LCDPuts("top: %i",rand_top);
-  LCDPuts2("bot: %lu",getTime());
+  LCDPuts("top: %lu",getTime());
+  LCDPuts2("bot: %i",rand_top);
   _delay_ms(2500);
   }
 
