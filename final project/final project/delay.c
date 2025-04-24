@@ -36,6 +36,7 @@ ISR(DELAY_ISR_HANDLE, ISR_BLOCK) {
     userFlagInUse = false;
 }
 
+
 // writes "value" to 16-bit timer compare A register
 //  required by datasheet to write high byte first
 inline void writeTimerCompare(uint16_t value) {

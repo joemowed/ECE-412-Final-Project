@@ -13,7 +13,7 @@
 #include <stdint-gcc.h>
 
 // select the timer to use here.  Works with TIM1,TIM3, and TIM4
-#define DELAY_TIMER_NUMBER 1
+#define DELAY_TIMER_NUMBER 3
 
 #if DELAY_TIMER_NUMBER == 1 // timer register definitions for TIM1
 #define DELAY_CTRLA TCCR1A
@@ -60,5 +60,13 @@ void delayMicroseconds(uint16_t microseconds);
 // flip the flag at a time other than requested by delayFlag. Do not use
 // delayMicroseconds() before the flag in delayFlag() has been flipped
 void delayFlag(volatile bool *flag, const uint16_t microseconds);
+
+uint16_t microsecondsToPeriodCount(uint16_t value);
+
+//starts the global timer uses TIM4
+void timeStart();
+
+//returns the number of milliseconds since the global timer has started
+unsigned long getTime();
 
 #endif /* TIMERAPI_H_ */
