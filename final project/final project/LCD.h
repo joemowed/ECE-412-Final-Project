@@ -55,6 +55,11 @@ void LCDCursorHome();
 // sets the appropriate pins to outputs for driving the LCD
 void LCDConfigPins();
 
+void LCDPuts2(const char *str_top,...);
+
+// writes a single string to the LCD, on the top line
+void LCDPuts(const char *str,...);
+
 // configuration for the LCD
 // This is used by the LCDInit() function to
 // configure the display

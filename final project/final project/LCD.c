@@ -8,16 +8,19 @@
 
 #include "delay.h"
 #include "portAPI.h"
+#include <stdarg.h>
+#include <stdio.h>
+#include <string.h>
 
 // configuration settings used by LCDInit()
 struct LCDConfig LCDConfig = {
     .isCursorIncrement = 1,
     .isDisplayShift = 0,
     .isDisplayOn = 1,
-    .isCursorOn = 0,
-    .isCursorBlinkOn = 0,
+    .isCursorOn = 1,
+    .isCursorBlinkOn = 1,
     .is8BitData = 1,
-    .is2LineMode = 0,
+    .is2LineMode = 1,
     .is5x11Font = 0,
 };
 
@@ -81,7 +84,7 @@ inline void LCDConfigPins() {
   configOutputPin(&LCD_RW_PORT, LCD_RW_PIN);
 }
 
-void LCDInit(PSCallbacks *LCDStacking) {
+void LCDInit() {
   LCDConfigPins();
   LCDZeroOutputs();  // clear outputs on LCD pins
   // "function set" from datasheet
@@ -112,8 +115,45 @@ void LCDWriteCustomChar(CustomChar *customChar, uint8_t addr) {
   // are read by LCD
   delayMicroseconds(LCD_SHORT_DELAY);
   for (uint8_t i = 0; i < 8; i++) {  // send each of the 8 bytes that make up a
-                                     // custom character to the LCD
+    // custom character to the LCD
     // only bits 0:5 of each byte are used by the LCD
     LCDWriteData(customChar->lines[i]);
   }
+}
+
+/* Sets the cursor to a position on the LCD.  Valid positions on the 1602 LCD
+ * include are 0x00-0x67 (2-line display mode).  The first char on the second
+ * line is at position 0x28.*/
+void LCDSetCursorPos(uint8_t pos) {
+  pos |= (1 << 7);  // LCD datasheet: 6:0 are the address, bit 7 is always 1
+  LCDWriteCommand(pos);  // set the cursor pos
+}
+
+//creates the formatted string, given a string format and va_args list
+void vLCDPuts(const char* str,va_list *args){
+	
+char buffer[64];
+char * buffer_read_ptr = buffer;
+vsprintf(buffer, str, *args);
+  while (*buffer_read_ptr) {
+    LCDWriteData(*buffer_read_ptr++);
+  }
+}
+
+// writes a single string to the LCD 
+void LCDPuts(const char *str,...) {
+va_list args;
+va_start(args,str);
+vLCDPuts(str,&args);
+va_end(args);
+}
+
+/*Same as LCDPuts(), except writes the string to the bottom line of the LCD.
+*/
+void LCDPuts2(const char *str,...) {
+LCDSetCursorPos(0x28);
+va_list args;
+va_start(args,str);
+vLCDPuts(str,&args);
+va_end(args);
 }
