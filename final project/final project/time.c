@@ -102,6 +102,9 @@ void timeStart(){
 unsigned long getTime(){
 	return global_ms_elapsed;
 }
+bool isGlobalTimerInit(){
+	return is_global_timer_init;
+}
 
 
 /* starts counting milliseconds for the quickdraw timer.  Resets the current
@@ -118,9 +121,4 @@ void startDrawTimer(){
 /* Returns the number of milliseconds elapsed since the startDrawTimer has been called.*/
 unsigned long stopDrawTimer(){
 	return getTime() - quickdraw_start_ms;
-}
-
-void delayMilliseconds(unsigned long milliseconds){
-	unsigned long startTime = getTime();
-	while((getTime()-startTime) > milliseconds){}
 }
