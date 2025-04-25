@@ -97,7 +97,7 @@ int main(void) {
     } else {
       LCDPuts("<== winner");
     }
-    LCDPuts2("Time : %d", reaction_time);
+    LCDPuts2("Time : %dms", reaction_time);
     _delay_ms(5000);
   }
 }
