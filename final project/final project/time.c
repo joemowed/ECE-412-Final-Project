@@ -102,6 +102,7 @@ void timeStart(){
 unsigned long getTime(){
 	return global_ms_elapsed;
 }
+
 bool isGlobalTimerInit(){
 	return is_global_timer_init;
 }
