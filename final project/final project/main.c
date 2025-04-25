@@ -12,7 +12,6 @@
 #include "time.h"
 #include "random.h"
 #include <util/delay.h>
-#define F_CPU 16000000UL
 #include <stdlib.h>
 #include <avr/interrupt.h>
 
@@ -38,7 +37,7 @@ void pin_change_interrupt_init() {
 
 // Pin Change Interrupt for PCINT0..7 (Port B)
 ISR(PCINT0_vect) {
-	if (!(PINB & (1 << PB4))) {
+	if (!(PINB & (1 << PINB4))) {
 		winner = 1;
 	}
 	else if (!(PINB & (1 << PB5))) {
@@ -81,11 +80,11 @@ int main(void) {
 	final = stopDrawTimer();
 	if (winner == 1)
 	{
-		LCDPuts("winner =>");
+		LCDPuts("winner ==>");
 	}
 	else
 	{
-		LCDPuts("<= winner");
+		LCDPuts("<== winner");
 	}
 	LCDPuts2("Time : %d", &final);
   }
