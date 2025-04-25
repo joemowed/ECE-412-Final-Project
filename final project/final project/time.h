@@ -16,9 +16,6 @@ void timeStart();
 // returns the number of milliseconds since the global timer has started
 unsigned long getTime();
 
-//returns true if the global timer is counting
-bool isGlobalTimerInit();
-
 /* starts counting milliseconds for the quickdraw timer.  Resets the current
  start time for the quickdraw timer if required.*/
 void startDrawTimer();

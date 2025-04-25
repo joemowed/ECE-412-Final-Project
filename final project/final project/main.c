@@ -14,9 +14,17 @@
 #include "delay.h"
 #include "random.h"
 #include "time.h"
+#include "portapi.h"
 
-void StartBuzzer(void) { TCCR1B = 0x1A; }
-void StopBuzzer(void) { TCCR1B = 0x18; }
+void StartBuzzer(void) {
+  TCNT1 = 0x00;      // Start the timer count from 0;
+  TCCR1A = 0x82;     // These configuration bits are key, research them...
+	 TCCR1B = 0x1A;}
+void StopBuzzer(void) {
+  TCNT1 = 0x00;     
+  TCCR1A = 0x00;     
+	 TCCR1B = 0x00;
+portWritePin(&PORTB,1,0); }
 
 // Variables for ISR
 volatile unsigned long reaction_time = 0;
@@ -31,9 +39,10 @@ void pin_change_interrupt_init() {
 
 // Pin Change Interrupt for PCINT0..7 (Port B)
 ISR(PCINT0_vect) {
-  if (PINB & (1 << PINB4)) {
+	const uint8_t read_PINB = PINB;
+  if (!(read_PINB & (1 << PINB4))) {
     winner = 1;
-  } else if (PINB & (1 << PINB5)) {
+  } else if (!(read_PINB & (1 << PINB5))) {
     winner = 2;
   }
   reaction_time = stopDrawTimer();
@@ -49,14 +58,16 @@ int main(void) {
   TCCR1A = 0x82;     // These configuration bits are key, research them...
   TCCR1B = 0x18;     // ditto!
   OCR1A = ICR1 / 2;  // 50% duty cycle
-  TIMSK1 |= 0x02;    // Enable Timer 1 to generate interrupts.
   pin_change_interrupt_init();
+  _delay_ms(2000);//wait, in case PC tries to talk over COM port
   LCDInit();
   timeStart();
 
   while (1) {
+  LCDClear();
     LCDPuts("Push Any Button");
     LCDPuts2("to Start Game");
+   winner = 0;
     while (winner == 0) {
     }
     winner = 0;
@@ -67,23 +78,25 @@ int main(void) {
     unsigned long StartTime = getTime();
     while ((getTime() - StartTime) < Rand) {
     }
-    winner = 0;
 
     LCDClear();
     LCDPuts("GO!!");
     LCDPuts2("GO!!");
     StartBuzzer();
     startDrawTimer();
+    winner = 0;
     while (winner == 0) {
     }
 
-    StopBuzzer();
-    if (winner == 1) {
+   StopBuzzer();
+   LCDClear();
+    if (winner == 2) {
       LCDPuts("winner ==>");
     } else {
       LCDPuts("<== winner");
     }
     LCDPuts2("Time : %d", reaction_time);
-    _delay_ms(10000);
+    _delay_ms(5000);
+
   }
 }

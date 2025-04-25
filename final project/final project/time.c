@@ -103,19 +103,11 @@ unsigned long getTime(){
 	return global_ms_elapsed;
 }
 
-bool isGlobalTimerInit(){
-	return is_global_timer_init;
-}
 
 
 /* starts counting milliseconds for the quickdraw timer.  Resets the current
  start time for the quickdraw timer if required.*/
 void startDrawTimer(){
-	if(!isGlobalTimerInit())
-	{
-	//start the global timer, if it is not already	
-		timeStart();
-	}
 	quickdraw_start_ms = getTime();
 }
 
