@@ -61,7 +61,7 @@ int main(void) {
   TCCR1B = 0x18;     // ditto!
   OCR1A = ICR1 / 2;  // 50% duty cycle
   pin_change_interrupt_init();
-  _delay_ms(2000);  // wait, in case PC tries to talk over COM port
+  _delay_ms(4000);  // wait, in case PC tries to talk over COM port
   LCDInit();
   timeStart();
 

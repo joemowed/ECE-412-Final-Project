@@ -88,10 +88,7 @@ void LCDInit() {
   LCDZeroOutputs();  // clear outputs on LCD pins
 
   // "function set" from datasheet
-  uint8_t tmp = ((1 << 5) | (LCDConfig.is8BitData << 4) |
-                 (LCDConfig.is2LineMode << 3) | (LCDConfig.is5x11Font << 2));
-  LCDWriteCommand(tmp);
-  tmp = 0;
+  uint8_t tmp = 0;
 
   tmp = (1 << 3);  // "Display ON/OFF" from datasheet
   LCDWriteCommand(tmp);
@@ -106,6 +103,11 @@ void LCDInit() {
   // "Display ON/OFF" from datasheet
   tmp = ((1 << 3) | (LCDConfig.isDisplayOn << 2) | (LCDConfig.isCursorOn << 1) |
          LCDConfig.isCursorBlinkOn);
+  LCDWriteCommand(tmp);
+  tmp = 0;
+
+  tmp = ((1 << 5) | (LCDConfig.is8BitData << 4) |
+                 (LCDConfig.is2LineMode << 3) | (LCDConfig.is5x11Font << 2));
   LCDWriteCommand(tmp);
   tmp = 0;
 
