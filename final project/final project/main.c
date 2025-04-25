@@ -55,7 +55,7 @@ int main(void) {
   DDRB &= ~((1 << DDRB4) | (1 << DDRB5));  // PB4 and PB5 as input with pullup
   PORTB |= (1 << PORTB4) | (1 << PORTB5);  // PB4 and PB5 as input with pullup
   DDRB |= 0x02;      // set PB1 as output to drive transistor driver.
-  ICR1 = 1075;       // Make TOP value so Frequency ~120HZ, see CLK pre-scaler
+  ICR1 = 1075;       // Make TOP value so Frequency ~1.8KHZ, see CLK pre-scaler
   TCNT1 = 0x00;      // Start the timer count from 0;
   TCCR1A = 0x82;     // These configuration bits are key, research them...
   TCCR1B = 0x18;     // ditto!
